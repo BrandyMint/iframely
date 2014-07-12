@@ -12,7 +12,7 @@ class IframelyRequesterTers < Minitest::Test
     stub_request(:get, Iframely::IFRAMELY_API_URL + "?api_key=some_key&url=some_url").
           to_return(:status => 200, :body => "{}")
 
-    @iframely.get_json EMBED_URL
+    @iframely.get_iframely EMBED_URL
   end
 
   def test_request_oembed

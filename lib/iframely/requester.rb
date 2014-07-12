@@ -3,22 +3,32 @@ require 'json'
 
 module Iframely
   class Requester
-    def initialize api_key: nil, iframely_url: IFRAMELY_API_URL, oembed_url: OEMBED_API_URL
-      @iframely_url = iframely_url or raise "No iframely_url specified"
-      @oembed_url   = oembed_url or raise "No oembed_url specified"
-      @api_key      = api_key      or raise "No api_key specified"
-    end
+    CACHE_KEY_PREFIX = 'iframely:'
+    attr_accessor :iframely_url, :oembed_url, :api_key, :cache, :cache_options
 
-    def get_json embed_url
-      response = iframely_connection.get do |req|
-        req.params['api_key'] = api_key
-        req.params['url']     = embed_url
+    def initialize api_key: nil, cache: nil, cache_options: {}, iframely_url: IFRAMELY_API_URL, oembed_url: OEMBED_API_URL
+      @iframely_url  = iframely_url or raise "No iframely_url specified"
+      @oembed_url    = oembed_url or raise "No oembed_url specified"
+      @api_key       = api_key      or raise "No api_key specified"
+      @cache         = cache
+      if cache
+        raise "cache must be a ActiveSupport::Cache::Store" unless defined?(ActiveSupport::Cache::Store) && cache.is_a?(ActiveSupport::Cache::Store)
       end
-
-      return JSON.parse response.body
+      @cache_options = cache_options
     end
 
     def get_iframely embed_url
+      fetch cache_key(:iframely, embed_url) do
+        response = iframely_connection.get do |req|
+          req.params['api_key'] = api_key
+          req.params['url']     = embed_url
+        end
+
+        JSON.parse response.body
+      end
+    end
+
+    def get_iframely_model embed_url
       json = get_json embed_url
       if json.has_key? 'error'
         raise Iframely::Error, json['error']
@@ -28,17 +38,30 @@ module Iframely
     end
 
     def get_oembed embed_url
-      response = oembed_connection.get do |req|
-        req.params['api_key'] = api_key
-        req.params['url']     = embed_url
-      end
+      fetch cache_key(:oembed, embed_url) do
+        response = oembed_connection.get do |req|
+          req.params['api_key'] = api_key
+          req.params['url']     = embed_url
+        end
 
-      return JSON.parse response.body
+        JSON.parse response.body
+      end
     end
 
     private
 
-    attr_reader :iframely_url, :oembed_url, :api_key
+    def cache_key type, url
+      CACHE_KEY_PREFIX + type.to_s + ':' + url.to_s
+      return CACHE_KEY_PREFIX
+    end
+
+    def fetch cache_key, &block
+      if cache
+        cache.fetch cache_key, &block
+      else
+        block.call
+      end
+    end
 
     def oembed_connection
       @oembed_connection ||= Faraday.new(:url => oembed_url) do |faraday|

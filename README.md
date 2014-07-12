@@ -1,6 +1,6 @@
 # iframe.ly ruby client
-
-[![Dependency Status](https://gemnasium.com/BrandyMint/iframely.svg)](https://gemnasium.com/BrandyMint/iframely)
+[![Build Status](https://travis-ci.org/BrandyMint/iframely.svg?branch=master)](https://travis-ci.org/BrandyMint/iframely)
+[![Dependency Status](https://gemnasium.com/BrandyMint/iframely.svg)](https://gemnasium.com/BrandyMint/iframely) [![Code Climate](https://codeclimate.com/github/BrandyMint/iframely.png)](https://codeclimate.com/github/BrandyMint/iframely)
 
 
 Get http://iframe.ly in Ruby world!

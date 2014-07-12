@@ -17,7 +17,7 @@ module Iframely
       @cache_options = cache_options
     end
 
-    def get_iframely embed_url
+    def get_iframely_json embed_url
       fetch cache_key(:iframely, embed_url) do
         response = iframely_connection.get do |req|
           req.params['api_key'] = api_key
@@ -29,7 +29,7 @@ module Iframely
     end
 
     def get_iframely_model embed_url
-      json = get_json embed_url
+      json = get_iframely_json embed_url
       if json.has_key? 'error'
         raise Iframely::Error, json['error']
       else
@@ -37,7 +37,7 @@ module Iframely
       end
     end
 
-    def get_oembed embed_url
+    def get_oembed_json embed_url
       fetch cache_key(:oembed, embed_url) do
         response = oembed_connection.get do |req|
           req.params['api_key'] = api_key
@@ -52,7 +52,6 @@ module Iframely
 
     def cache_key type, url
       CACHE_KEY_PREFIX + type.to_s + ':' + url.to_s
-      return CACHE_KEY_PREFIX
     end
 
     def fetch cache_key, &block

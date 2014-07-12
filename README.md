@@ -1,6 +1,9 @@
 # iframe.ly ruby client
 
-Get http://iframe.ly in Ruby world
+[![Dependency Status](https://gemnasium.com/BrandyMint/iframely.svg)](https://gemnasium.com/BrandyMint/iframely)
+
+
+Get http://iframe.ly in Ruby world!
 
 ## Installation
 

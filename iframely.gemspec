@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["danil@brandymint.ru"]
   spec.summary       = %q{iframe.ly ruby client}
   #spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = "http://iframe.ly"
+  spec.homepage      = 'https://github.com/BrandyMint/iframely'
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")

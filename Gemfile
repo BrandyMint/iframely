@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'faraday'
-gem 'hashie'
+gem 'hashie', '~> 2.0'
 
 #group :development do
   #gem 'minitest'

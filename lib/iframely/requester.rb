@@ -33,7 +33,7 @@ module Iframely
       if json.has_key? 'error'
         raise Iframely::Error, json['error']
       else
-        Iframely::Model.new  json
+        Iframely::Model.build json
       end
     end
 

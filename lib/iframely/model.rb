@@ -2,6 +2,7 @@ require 'hashie'
 
 module Iframely
   class Model < Hashie::Dash
+
     property :id,   required: true
     property :url,  required: true
 
@@ -11,5 +12,27 @@ module Iframely
     # Может не быть. Например по ссылке:
     # https://github.com/imakewebthings/jquery-waypoints
     property :html 
+
+    def self.build json
+      if json.is_a? Hash
+        if json.include?('error')
+          Iframely::ErrorModel.new json
+        else
+          new json
+        end
+      else
+        Iframely::ErrorModel.new error: 'no data'
+      end
+    rescue StandardError => e
+      Iframely::ErrorModel.new error: e.message
+    end
+
   end
+
+  class ErrorModel < Hashie::Dash
+    # Если он установлен, значит это ошибка и больше смотреть нечего
+    property :error, required: true
+  end
+
 end
+

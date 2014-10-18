@@ -9,6 +9,8 @@ module Iframely
     property :meta
     property :links
 
+    property :rel
+
     # Может не быть. Например по ссылке:
     # https://github.com/imakewebthings/jquery-waypoints
     property :html 

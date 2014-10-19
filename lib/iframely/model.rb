@@ -3,7 +3,7 @@ require 'hashie'
 module Iframely
   class Model < Hashie::Dash
 
-    property :id,   required: true
+    property :id # Оказывается бывает не всегда
     property :url,  required: true
 
     property :meta

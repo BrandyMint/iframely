@@ -1,7 +1,7 @@
 require 'hashie'
 
 module Iframely
-  class Model < Hashie::Dash
+  class Model < Hashie::Trash
 
     property :id # Оказывается бывает не всегда
     property :url,  required: true
@@ -10,6 +10,8 @@ module Iframely
     property :links
 
     property :rel
+
+    property :status
 
     # Может не быть. Например по ссылке:
     # https://github.com/imakewebthings/jquery-waypoints

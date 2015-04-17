@@ -20,7 +20,7 @@ module Iframely
     def self.build json
       if json.is_a? Hash
         if json.include?('error')
-          Iframely::ErrorModel.new json
+          Iframely::ErrorModel.new error: json['error'], json: json
         else
           new json
         end
@@ -28,7 +28,7 @@ module Iframely
         Iframely::ErrorModel.new error: 'no data'
       end
     rescue StandardError => e
-      Iframely::ErrorModel.new error: e.message
+      Iframely::ErrorModel.new error: e.message, source: e
     end
 
   end
@@ -36,6 +36,8 @@ module Iframely
   class ErrorModel < Hashie::Dash
     # Если он установлен, значит это ошибка и больше смотреть нечего
     property :error, required: true
+    property :json
+    property :source
   end
 
 end

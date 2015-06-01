@@ -24,13 +24,13 @@ Or install it yourself as:
 
     iframely = Iframely::Requester.new api_key: 'you_api_key'
 
-    iframely.get_json 'http://www.youtube.com/watch?v=wVVjOd_Ooys'
+    iframely.get_iframely_json 'http://www.youtube.com/watch?v=wVVjOd_Ooys'
     # returns iframely json
     
-    iframely.get_iframely 'http://www.youtube.com/watch?v=wVVjOd_Ooys'
+    iframely.get_iframely_model 'http://www.youtube.com/watch?v=wVVjOd_Ooys'
     # returns Iframely::Model from iframely json
 
-    iframely.get_oembed 'http://www.youtube.com/watch?v=wVVjOd_Ooys'
+    iframely.get_oembed_json 'http://www.youtube.com/watch?v=wVVjOd_Ooys'
     # returns oembed json
 
 
